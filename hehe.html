@@ -67,7 +67,7 @@
   <nav>
     <button onclick="showPage('notes')">Love Notes</button>
     <button onclick="showPage('oshawott')">Clicky Game</button>
-    <button onclick="showPage('page3')">Page 3 (TBD)</button>
+    <button onclick="showPage('time')">Page 3 (TBD)</button>
   </nav>
   
   <div id="notes" class="page active">
@@ -83,20 +83,52 @@
 
   <div id="oshawott" class="page">
     <h1>🦦 Oshawott Zone</h1>
-    <p>Catch Oshawott if you can!</p>
+    <p>Click Oshawott to earn love points 🐚</p>
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
+    <div id="countDisplay">Love Points: 0</div>
   </div>
 
-  <div id="page3" class="page">
-    <h1>gay</h1>
-    <p>gay2</p>
+  <div id="time" class="page">
+    <h2>Our Time Together 💞</h2>
+    <p id="monthsTogether"></p>
+    <div id="timer"></div>
   </div>
 
   <script>
-    function showPage(pageId) {
-      const pages = document.querySelectorAll('.page');
-      pages.forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
+    let count = 0;
+    function increaseCount() {
+      count++;
+      document.getElementById('countDisplay').textContent = 'Love Points: ' + count;
     }
+
+    function showPage(n) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + n).classList.add('active');
+    }
+
+    // Relationship start date (YYYY, MM - 1, DD)
+    const startDate = new Date(2024, 5, 22); // June 22, 2024
+    const now = new Date();
+
+    const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+    document.getElementById('monthsTogether').textContent = `You’ve been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} 💕`;
+
+    // Countdown to next anniversary (monthly)
+    let nextMonth = new Date(startDate);
+    nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = nextMonth - now;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+      document.getElementById('timer').textContent = `Next monthly milestone in: ${days}d ${hours}h ${mins}m ${secs}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
     
     const notes = [
       { text: "You're my favorite person.", img: "pic1.jpg" },
