@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oshawott Love Project</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fffafc;
+      color: #222;
+      text-align: center;
+      padding: 2rem;
+    }
+    nav button {
+      margin: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 1rem;
+      background: #ff90b3;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .page {
+      display: none;
+      margin-top: 2rem;
+    }
+    .active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('jazz')">Jazz</button>
+    <button onclick="showPage('oshawott')">Oshawott</button>
+  </nav>
+
+  <div id="home" class="page active">
+    <h1>Welcome to our love page 💖</h1>
+    <p>This is the beginning of our little world.</p>
+  </div>
+
+  <div id="jazz" class="page">
+    <h1>🎷 Jazz Stuff</h1>
+    <p>All the jazz love, for your jazzy boy.</p>
+  </div>
+
+  <div id="oshawott" class="page">
+    <h1>🦦 Oshawott Zone</h1>
+    <p>Because nothing says love like a water-type cutie.</p>
+  </div>
+
+  <script>
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
