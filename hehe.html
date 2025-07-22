@@ -109,6 +109,7 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+   <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; pointer-events:none; z-index:999;" width="window.innerWidth" height="window.innerHeight"></canvas>
 
   </style>
 </head>
@@ -201,16 +202,69 @@
 
     const startDate = new Date(2025, 5, 02);
 
-    function updatePage2() {
-      const now = new Date();
-      const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
-      document.getElementById('monthsTogether').textContent = `We have been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} 💕`;
-      nextMonth = new Date(startDate);
-      nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
-      if (countdownInterval) clearInterval(countdownInterval);
-      countdownInterval = setInterval(updateCountdown, 1000);
+    function daysBetween(date1, date2) {
+    const diff = date2 - date1;
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+  }
+
+  function updatePage2() {
+    const now = new Date();
+    const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+    const monthAnniversary = new Date(startDate);
+    monthAnniversary.setMonth(startDate.getMonth() + monthsDiff);
+    const dayDiff = daysBetween(monthAnniversary, now);
+    document.getElementById('monthsTogether').textContent =
+      `We have been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} and ${dayDiff} day${dayDiff !== 1 ? 's' : ''} 💕`;
+    
+    nextMonth = new Date(startDate);
+    nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
+    if (countdownInterval) clearInterval(countdownInterval);
+    countdownInterval = setInterval(updateCountdown, 1000);
+  }
+
+  function resetScore() {
+    count = 0;
+    document.getElementById('countDisplay').textContent = 'Score: 0';
+    document.getElementById('awesomeMessage').textContent = '';
+    document.getElementById('resetBtn').style.display = 'none';
+    launchConfetti();
+  }
+
+  function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const pieces = [];
+
+    for (let i = 0; i < 150; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 6 + 4,
+        speed: Math.random() * 3 + 2,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+        tilt: Math.random() * 10 - 5
+      });
     }
 
+    let frame;
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of pieces) {
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+        p.y += p.speed;
+        p.x += Math.sin(p.y / 20) * 2;
+        if (p.y > canvas.height) p.y = 0;
+      }
+      frame = requestAnimationFrame(drawConfetti);
+    }
+
+    drawConfetti();
+    setTimeout(() => cancelAnimationFrame(frame), 3000);
+  }
     function updateCountdown() {
       const now = new Date();
       const diff = nextMonth - now;
