@@ -118,10 +118,7 @@
   <div id="notes" class="page active">
     <h1>Hi pookie bear! 💖</h1>
     <p>WELCOME TO SAMI CRINGE PROJCET</p>
-    <!-- 🖼️ Image -->
     <img id="noteImage" src="pic1.jpg" alt="Memory" />
-
-    <!-- 💌 Text -->
     <p id="noteText">You're my favorite person.</p>
     <button onclick="nextNote()">Next Note</button>
   </div>
@@ -141,8 +138,7 @@
     <h2>Our Time Together 💞</h2>
     <p id="monthsTogether"></p>
     <img src="coolpic.jpg" alt="Cute Memory" style="max-width: 90vw; max-height: 350px; border-radius: 12px; margin-top: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-</div>
-    <div id="timer"></div>
+   <div id="timer"></div>
   </div>
 
   <script>
@@ -159,7 +155,7 @@
       if (count === 42) {
         messageBox.textContent = "✨ You found the meaning of love (and the universe)! ✨";
       } else if (count === 69) {
-        messageBox.textContent = "😏 Nice.";
+        messageBox.textContent = "Nice.";
       } else {
         messageBox.textContent = '';
       }
@@ -192,12 +188,11 @@
     function showPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-    
+   
       if (countdownInterval) clearInterval(countdownInterval);
       if (id === 'time') updatePage2();
     }
 
-    // Relationship start date (YYYY, MM - 1, DD)
     const startDate = new Date(2025, 5, 02);
 
     function updatePage2() {
