@@ -74,6 +74,12 @@
   </div>
 
   <script>
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+    
     const notes = [
       { text: "You're my favorite person.", img: "pic1.jpg" },
       { text: "Every day with you is a gift.", img: "pic2.jpg" },
@@ -100,14 +106,6 @@
     <h1>gay</h1>
     <p>gay2</p>
   </div>
-
-  <script>
-    function showPage(pageId) {
-      const pages = document.querySelectorAll('.page');
-      pages.forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
-    }
-  </script>
 
 </body>
 </html>
