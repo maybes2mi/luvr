@@ -83,7 +83,7 @@
 
   <div id="oshawott" class="page">
     <h1>🦦 Oshawott Zone</h1>
-    <p>Click Oshawott to earn love points 🐚</p>
+    <p>Catch Oshawott if you can!~</p>
     <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
     <div id="countDisplay">Love Points: 0</div>
   </div>
@@ -101,6 +101,18 @@
     function increaseCount() {
       count++;
       document.getElementById('countDisplay').textContent = 'Love Points: ' + count;
+      moveOshawott();
+    }
+
+    function moveOshawott() {
+      const gameArea = document.getElementById('gameArea');
+      const oshawott = document.getElementById('oshawottImg');
+      const maxX = gameArea.clientWidth - oshawott.clientWidth;
+      const maxY = gameArea.clientHeight - oshawott.clientHeight;
+      const randX = Math.floor(Math.random() * maxX);
+      const randY = Math.floor(Math.random() * maxY);
+      oshawott.style.left = randX + 'px';
+      oshawott.style.top = randY + 'px';
     }
 
     function showPage(id) {
@@ -147,6 +159,8 @@
       document.getElementById("noteText").textContent = notes[noteIndex].text;
       document.getElementById("noteImage").src = notes[noteIndex].img;
     }
+
+    window.onload = moveOshawott;
   </script>
 
 </body>
