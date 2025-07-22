@@ -129,14 +129,20 @@
 
       if (count === 42) {
         messageBox.textContent = "✨ You found the meaning of love (and the universe)! ✨";
-        resetBtn.style.display = 'inline-block';
       } else if (count === 69) {
         messageBox.textContent = "😏 Nice.";
       } else {
         messageBox.textContent = '';
+      }
+
+      if (count >= 42) {
+        resetBtn.style.display = 'inline-block';
+      } else {
         resetBtn.style.display = 'none';
       }
     }
+
+      
 
     function resetScore() {
       count = 0;
