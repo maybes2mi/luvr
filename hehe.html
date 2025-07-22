@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -107,7 +107,7 @@
 
   <nav>
     <button onclick="showPage('notes')">Love Notes</button>
-    <button onclick="showPage('oshawott')">Clicker</button>
+    <button onclick="showPage('oshawott')">Oshawott</button>
     <button onclick="showPage('time')">Time With You</button>
   </nav>
   
@@ -198,7 +198,7 @@
     function updatePage2() {
       const now = new Date();
       const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
-      document.getElementById('monthsTogether').textContent = `You’ve been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} 💕`;
+      document.getElementById('monthsTogether').textContent = `We have been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} 💕`;
       nextMonth = new Date(startDate);
       nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
       setInterval(updateCountdown, 1000);
