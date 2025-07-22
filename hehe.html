@@ -5,59 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>#HookedOnDavey (❁´◡`❁)</title>
   <style>
-    body {
+        body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #fff0f5;
+      background-color: #e0f7fa;
       text-align: center;
-      margin: 0;
-      padding: 40px 10px;
+      padding: 40px 20px;
     }
-
     h1 {
+      color: #0077b6;
+      font-size: 2.4rem;
+    }
+    h2 {
+      font-size: 2rem;
+    }
+    p, #countDisplay, #timer, #awesomeMessage {
       font-size: 1.8rem;
-      color: #d63384;
-      margin-bottom: 10px;
     }
-
-    img {
-      width: 180px;
-      height: auto;
-      margin: 15px auto;
+    #gameArea {
+      width: 300px;
+      height: 300px;
+      margin: 20px auto;
+      position: relative;
+      background-color: #b2ebf2;
+      border: 2px dashed #0097a7;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      display: block;
     }
-
-    #noteText {
-      font-size: 1.05rem;
-      color: #800040;
-      margin-top: 10px;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 8px 18px;
-      background-color: #ff99cc;
-      color: white;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
+    #oshawottImg {
+      width: 100px;
+      position: absolute;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: top 0.3s ease, left 0.3s ease;
     }
-
-    button:hover {
-      background-color: #ff66a3;
+    #countDisplay {
+      margin-top: 20px;
+      color: #006064;
+    }
+    .nav {
+      margin-top: 40px;
+    }
+    .nav a {
+      margin: 0 15px;
+      color: #0288d1;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.6rem;
+      padding: 8px 12px;
     }
     .page {
       display: none;
     }
-    
-    .page.active {
+    .active {
       display: block;
+    }
+    #awesomeMessage {
+      color: #ff4081;
+      margin-top: 20px;
+      animation: pop 0.6s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(1); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
     }
 
   </style>
