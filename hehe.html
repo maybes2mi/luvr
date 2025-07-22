@@ -39,33 +39,32 @@
     <button onclick="showPage('idkyet')">Oshawott</button>
   </nav>
 
-  <div id="notes" class="page active">
+ <div id="notes" class="page active">
     <h1>Welcome to our love page 💖</h1>
 
-    <!-- 🌸 Pictures -->
-    <img src="pic1.jpg" alt="Us 1" />
-    <img src="pic2.jpg" alt="Us 2" />
-    <img src="pic3.jpg" alt="Us 3" />
+    <!-- 🖼️ Image -->
+    <img id="noteImage" src="pic1.jpg" alt="Memory" />
 
-    <!-- 💌 Love Notes -->
+    <!-- 💌 Text -->
     <p id="noteText">You're my favorite person.</p>
     <button onclick="nextNote()">Next Note</button>
   </div>
 
   <script>
     const notes = [
-      "You're my favorite person.",
-      "Every day with you is a gift.",
-      "You make me feel safe and loved.",
-      "I’m so lucky I get to call you mine.",
-      "Your smile is my favorite thing in the world."
+      { text: "You're my favorite person.", img: "pic1.jpg" },
+      { text: "Every day with you is a gift.", img: "pic2.jpg" },
+      { text: "You make me feel safe and loved.", img: "pic3.jpg" },
+      { text: "I’m so lucky I get to call you mine.", img: "pic1.jpg" },
+      { text: "Your smile is my favorite thing in the world.", img: "pic2.jpg" }
     ];
 
     let noteIndex = 0;
 
     function nextNote() {
       noteIndex = (noteIndex + 1) % notes.length;
-      document.getElementById("noteText").textContent = notes[noteIndex];
+      document.getElementById("noteText").textContent = notes[noteIndex].text;
+      document.getElementById("noteImage").src = notes[noteIndex].img;
     }
   </script>
 
