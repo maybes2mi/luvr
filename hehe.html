@@ -194,7 +194,9 @@
 
     function showPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+      document.getElementById('page' + n).classList.add('active');
+    
+      if (countdownInterval) clearInterval(countdownInterval);
       if (id === 'time') updatePage2();
     }
 
