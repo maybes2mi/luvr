@@ -31,6 +31,8 @@
       border-radius: 12px;
     }
     #oshawottImg.spin {
+      left: 0;
+      top: 0;
       animation: spin 2s linear infinite;
       width: 80px;
       height: auto;
@@ -130,7 +132,7 @@
     <h1>🦦 Oshawott Zone</h1>
     <p>Catch Oshawott if you can!~</p>
     <div id="gameArea">
-      <img id="oshawottImg" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
+      <img id="oshawottImg" class="spin" style="left: 0; top: 0;" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
     </div>
     <div id="countDisplay">Score: 0</div>
     <div id="awesomeMessage"></div>
@@ -204,7 +206,8 @@
       document.getElementById('monthsTogether').textContent = `We have been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} 💕`;
       nextMonth = new Date(startDate);
       nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
-      setInterval(updateCountdown, 1000);
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(updateCountdown, 1000);
     }
 
     function updateCountdown() {
@@ -236,7 +239,10 @@
       document.getElementById("noteImage").src = notes[noteIndex].img;
     }
 
-    window.onload = moveOshawott;
+    window.onload = () => {
+      moveOshawott();
+      updatePage2();
+    };
   </script>
 
 </body>
