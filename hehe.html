@@ -41,26 +41,33 @@
 
   <div id="notes" class="page active">
     <h1>Welcome to our love page 💖</h1>
-    <p>This is the beginning of our little world.</p>
-  
-    <div class="note">
-      <img src="pic1.jpg" alt="A sweet memory" style="width: 200px; border-radius: 12px; margin-bottom: 10px;">
-      <h3>Note #1</h3>
-      <p>Every time I see you smile, the whole world feels lighter.</p>
-    </div>
-  
-    <div class="note">
-      <img src="pic2.jpg" alt="Another moment" style="width: 200px; border-radius: 12px; margin-bottom: 10px;">
-      <h3>Note #2</h3>
-      <p>Thank you for being my safe place and my biggest joy.</p>
-    </div>
-  
-    <div class="note">
-      <img src="pic3.jpg" alt="Us 💕" style="width: 200px; border-radius: 12px; margin-bottom: 10px;">
-      <h3>Note #3</h3>
-      <p>I still get butterflies just thinking about you. 🦋</p>
-    </div>
+
+    <!-- 🌸 Pictures -->
+    <img src="pic1.jpg" alt="Us 1" />
+    <img src="pic2.jpg" alt="Us 2" />
+    <img src="pic3.jpg" alt="Us 3" />
+
+    <!-- 💌 Love Notes -->
+    <p id="noteText">You're my favorite person.</p>
+    <button onclick="nextNote()">Next Note</button>
   </div>
+
+  <script>
+    const notes = [
+      "You're my favorite person.",
+      "Every day with you is a gift.",
+      "You make me feel safe and loved.",
+      "I’m so lucky I get to call you mine.",
+      "Your smile is my favorite thing in the world."
+    ];
+
+    let noteIndex = 0;
+
+    function nextNote() {
+      noteIndex = (noteIndex + 1) % notes.length;
+      document.getElementById("noteText").textContent = notes[noteIndex];
+    }
+  </script>
 
   <div id="oshawott" class="page">
     <h1>🎷 Jazz Stuff</h1>
