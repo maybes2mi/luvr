@@ -88,6 +88,7 @@
       <img id="oshawottImg" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
     </div>
     <div id="countDisplay">Score: 0</div>
+    <div id="awesomeMessage"></div>
   </div>
 
   <div id="time" class="page">
@@ -104,6 +105,9 @@
       count++;
       document.getElementById('countDisplay').textContent = 'Love Points: ' + count;
       moveOshawott();
+      if (count === 42) {
+        document.getElementById('awesomeMessage').textContent = "✨ You found the meaning of love (and the universe)! ✨";
+      }
     }
 
     function moveOshawott() {
