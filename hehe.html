@@ -95,7 +95,9 @@
   </div>
 
   <script>
-    let count = 0;
+   let count = 0;
+    let nextMonth;
+
     function increaseCount() {
       count++;
       document.getElementById('countDisplay').textContent = 'Love Points: ' + count;
@@ -104,18 +106,19 @@
     function showPage(n) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page' + n).classList.add('active');
+      if (n === 2) updatePage2();
     }
 
     // Relationship start date (YYYY, MM - 1, DD)
     const startDate = new Date(2024, 5, 22); // June 22, 2024
-    const now = new Date();
 
-    const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
-    document.getElementById('monthsTogether').textContent = `You’ve been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} 💕`;
-
-    // Countdown to next anniversary (monthly)
-    let nextMonth = new Date(startDate);
-    nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
+    function updatePage2() {
+      const now = new Date();
+      const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+      document.getElementById('monthsTogether').textContent = `You’ve been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} 💕`;
+      nextMonth = new Date(startDate);
+      nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
+    }
 
     function updateCountdown() {
       const now = new Date();
@@ -128,7 +131,6 @@
     }
 
     setInterval(updateCountdown, 1000);
-    updateCountdown();
     
     const notes = [
       { text: "You're my favorite person.", img: "pic1.jpg" },
