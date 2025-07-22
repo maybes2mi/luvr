@@ -94,12 +94,6 @@
     <div id="timer"></div>
   </div>
 
-  <div class="nav">
-    <a href="#" onclick="showPage(1)">Page 1</a>
-    <a href="#" onclick="showPage(2)">Page 2</a>
-    <a href="#" onclick="showPage(3)">Page 3</a>
-  </div>
-
   <script>
    let count = 0;
     let nextMonth;
@@ -109,10 +103,10 @@
       document.getElementById('countDisplay').textContent = 'Love Points: ' + count;
     }
 
-    function showPage(n) {
+    function showPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('page' + n).classList.add('active');
-      if (n === 2) updatePage2();
+      document.getElementById(id).classList.add('active');
+      if (id === 'time') updatePage2();
     }
 
     // Relationship start date (YYYY, MM - 1, DD)
@@ -124,6 +118,7 @@
       document.getElementById('monthsTogether').textContent = `You’ve been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} 💕`;
       nextMonth = new Date(startDate);
       nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
+      setInterval(updateCountdown, 1000);
     }
 
     function updateCountdown() {
@@ -136,8 +131,7 @@
       document.getElementById('timer').textContent = `Next monthly milestone in: ${days}d ${hours}h ${mins}m ${secs}s`;
     }
 
-    setInterval(updateCountdown, 1000);
-    
+
     const notes = [
       { text: "You're my favorite person.", img: "pic1.jpg" },
       { text: "Every day with you is a gift.", img: "pic2.jpg" },
