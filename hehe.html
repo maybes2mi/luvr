@@ -97,6 +97,7 @@
     </div>
     <div id="countDisplay">Score: 0</div>
     <div id="awesomeMessage"></div>
+    <button id="resetBtn" onclick="resetScore()">Reset Score</button>
   </div>
 
   <div id="time" class="page">
@@ -106,17 +107,34 @@
   </div>
 
   <script>
-   let count = 0;
+    let count = 0;
     let nextMonth;
 
     function increaseCount() {
       count++;
       document.getElementById('countDisplay').textContent = 'Score: ' + count;
       moveOshawott();
+      const messageBox = document.getElementById('awesomeMessage');
+      const resetBtn = document.getElementById('resetBtn');
+
       if (count === 42) {
-        document.getElementById('awesomeMessage').textContent = "✨ You found the meaning of love (and the universe)! ✨";
+        messageBox.textContent = "✨ You found the meaning of love (and the universe)! ✨";
+        resetBtn.style.display = 'inline-block';
+      } else if (count === 69) {
+        messageBox.textContent = "😏 Nice.";
+      } else {
+        messageBox.textContent = '';
+        resetBtn.style.display = 'none';
       }
     }
+
+    function resetScore() {
+      count = 0;
+      document.getElementById('countDisplay').textContent = 'Score: 0';
+      document.getElementById('awesomeMessage').textContent = '';
+      document.getElementById('resetBtn').style.display = 'none';
+    }
+
 
     function moveOshawott() {
       const gameArea = document.getElementById('gameArea');
