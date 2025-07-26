@@ -153,7 +153,7 @@ let count = 0;
 let nextMonth;
 let countdownInterval;
 const startDate = new Date(2025, 5, 2);
-const lastEventDate = new Date(2025, 6, 22); // Example: July 12, 2025
+const lastEventDate = new Date(2025, 6, 22); 
 
 function increaseCount() {
   count += 3;
@@ -213,11 +213,19 @@ function updatePage2() {
 
   const nextMonthAnniversary = new Date(startDate);
   nextMonthAnniversary.setMonth(startDate.getMonth() + monthsDiff + 1);
-  const daysUntilNext = Math.floor((nextMonthAnniversary - now) / (1000 * 60 * 60 * 24));
-  document.getElementById('timer').textContent = `Days until next monthly milestone: ${daysUntilNext} day${daysUntilNext !== 1 ? 's' : ''}`;
+  const msUntilNext = nextMonthAnniversary - now;
+  const daysNext = Math.floor(msUntilNext / (1000 * 60 * 60 * 24));
+  const hoursNext = Math.floor((msUntilNext / (1000 * 60 * 60)) % 24);
+  const minsNext = Math.floor((msUntilNext / (1000 * 60)) % 60);
+  const secsNext = Math.floor((msUntilNext / 1000) % 60);
+  document.getElementById('timer').textContent = `Next monthly milestone in: ${daysNext}d ${hoursNext}h ${minsNext}m ${secsNext}s`;
 
-  const specialDayDiff = Math.floor((now - lastEventDate) / (1000 * 60 * 60 * 24));
-  document.getElementById('specialTimer').textContent = `Days since last 🤐🌭: ${specialDayDiff} day${specialDayDiff !== 1 ? 's' : ''}`;
+  const msSinceSpecial = now - lastEventDate;
+  const daysSpecial = Math.floor(msSinceSpecial / (1000 * 60 * 60 * 24));
+  const hoursSpecial = Math.floor((msSinceSpecial / (1000 * 60 * 60)) % 24);
+  const minsSpecial = Math.floor((msSinceSpecial / (1000 * 60)) % 60);
+  const secsSpecial = Math.floor((msSinceSpecial / 1000) % 60);
+  document.getElementById('specialTimer').textContent = `Days since last 🤐🌭😛: ${daysSpecial}d ${hoursSpecial}h ${minsSpecial}m ${secsSpecial}s`;
 }
 
 function launchConfetti() {
@@ -242,12 +250,18 @@ function launchConfetti() {
       ctx.fillStyle = p.color;
       ctx.fillRect(p.x, p.y, p.size, p.size);
       p.y += p.speed;
-      if (p.y > canvas.height) p.y = 0 - p.size;
+      if (p.y > canvas.height) {
+        p.y = Math.random() * -canvas.height;
+        p.x = Math.random() * canvas.width;
+      }
     }
     frame = requestAnimationFrame(drawConfetti);
   }
   drawConfetti();
-  setTimeout(() => cancelAnimationFrame(frame), 3000);
+  setTimeout(() => {
+    cancelAnimationFrame(frame);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }, 3000);
 }
 
 const notes = [
