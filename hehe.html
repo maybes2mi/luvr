@@ -130,7 +130,7 @@
 </div>
 
 <div id="oshawott" class="page">
-  <h1>🥦 Oshawott Zone</h1>
+  <h1>🦦 Oshawott Zone</h1>
   <p>Catch Oshawott if you can!~</p>
   <div id="gameArea">
     <img id="oshawottImg" class="spin" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
@@ -141,7 +141,7 @@
 </div>
 
 <div id="time" class="page">
-  <h2>Our Time Together 💞</h2>
+  <h2>Our Time Together 💛💙</h2>
   <p id="monthsTogether"></p>
   <img src="coolpic.jpg" alt="Cute Memory" style="max-width: 90vw; max-height: 350px; border-radius: 12px; margin-top: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
   <div id="timer"></div>
@@ -221,14 +221,14 @@ function updatePage2() {
   const hoursNext = Math.floor((msUntilNext / (1000 * 60 * 60)) % 24);
   const minsNext = Math.floor((msUntilNext / (1000 * 60)) % 60);
   const secsNext = Math.floor((msUntilNext / 1000) % 60);
-  document.getElementById('timer').textContent = `Next monthly milestone in: ${daysNext}d ${hoursNext}h ${minsNext}m ${secsNext}s`;
+  document.getElementById('timer').textContent = `Next monthly milestone in: ${daysNext}d ${hoursNext}h ${minsNext}m ${secsNext}s 🎀`;
 
   const msSinceSpecial = now - lastEventDate;
   const daysSpecial = Math.floor(msSinceSpecial / (1000 * 60 * 60 * 24));
   const hoursSpecial = Math.floor((msSinceSpecial / (1000 * 60 * 60)) % 24);
   const minsSpecial = Math.floor((msSinceSpecial / (1000 * 60)) % 60);
   const secsSpecial = Math.floor((msSinceSpecial / 1000) % 60);
-  document.getElementById('specialTimer').textContent = `Days since last [special thing]: ${daysSpecial}d ${hoursSpecial}h ${minsSpecial}m ${secsSpecial}s`;
+  document.getElementById('specialTimer').textContent = `Days since last 🤐🌭😛: ${daysSpecial}d ${hoursSpecial}h ${minsSpecial}m ${secsSpecial}s`;
 }
 
 function launchConfetti() {
