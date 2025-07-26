@@ -1,11 +1,11 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>#HookedOnDavey (❁´◡`❁)</title>
+  <title>#HookedOnDavey (❡´□`❡)</title>
   <style>
-        body {
+    body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #e0f7fa;
       text-align: center;
@@ -18,7 +18,7 @@
     h2 {
       font-size: 2rem;
     }
-    p, #countDisplay, #timer, #awesomeMessage {
+    p, #countDisplay, #timer, #awesomeMessage, #specialTimer {
       font-size: 1.8rem;
     }
     #gameArea {
@@ -105,201 +105,173 @@
       50% { transform: scale(1.2); opacity: 1; }
       100% { transform: scale(1); }
     }
-   @keyframes spin {
+    @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-   <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; pointer-events:none; z-index:999;" width="window.innerWidth" height="window.innerHeight"></canvas>
-
   </style>
 </head>
 <body>
 
-  <nav>
-    <button onclick="showPage('notes')">Love Notes</button>
-    <button onclick="showPage('oshawott')">Oshawott</button>
-    <button onclick="showPage('time')">Time With You</button>
-  </nav>
-  
-  <div id="notes" class="page active">
-    <h1>Hi pookie bear! 💖</h1>
-    <p>WELCOME TO SAMI CRINGE PROJCET</p>
-    <img id="noteImage" src="pic1.jpg" alt="Memory" />
-    <p id="noteText">You're my favorite person.</p>
-    <button onclick="nextNote()">Next Note</button>
+<canvas id="confetti-canvas" style="position:fixed; top:0; left:0; pointer-events:none; z-index:999;"></canvas>
+
+<nav>
+  <button onclick="showPage('notes')">Love Notes</button>
+  <button onclick="showPage('oshawott')">Oshawott</button>
+  <button onclick="showPage('time')">Time With You</button>
+</nav>
+
+<div id="notes" class="page active">
+  <h1>Hi pookie bear! 💖</h1>
+  <p>WELCOME TO SAMI CRINGE PROJCET</p>
+  <img id="noteImage" src="pic1.jpg" alt="Memory" />
+  <p id="noteText">You're my favorite person.</p>
+  <button onclick="nextNote()">Next Note</button>
+</div>
+
+<div id="oshawott" class="page">
+  <h1>🦦 Oshawott Zone</h1>
+  <p>Catch Oshawott if you can!~</p>
+  <div id="gameArea">
+    <img id="oshawottImg" class="spin" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
   </div>
+  <div id="countDisplay">Score: 0</div>
+  <div id="awesomeMessage"></div>
+  <button id="resetBtn" onclick="resetScore()" style="display: none;">Reset Score</button>
+</div>
 
-  <div id="oshawott" class="page">
-    <h1>🦦 Oshawott Zone</h1>
-    <p>Catch Oshawott if you can!~</p>
-    <div id="gameArea">
-      <img id="oshawottImg" class="spin" style="left: 0; top: 0;" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
-    </div>
-    <div id="countDisplay">Score: 0</div>
-    <div id="awesomeMessage"></div>
-    <button id="resetBtn" onclick="resetScore()">Reset Score</button>
-  </div>
+<div id="time" class="page">
+  <h2>Our Time Together 💞</h2>
+  <p id="monthsTogether"></p>
+  <img src="coolpic.jpg" alt="Cute Memory" style="max-width: 90vw; max-height: 350px; border-radius: 12px; margin-top: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+  <div id="timer"></div>
+  <div id="specialTimer"></div>
+</div>
 
-  <div id="time" class="page">
-    <h2>Our Time Together 💞</h2>
-    <p id="monthsTogether"></p>
-    <img src="coolpic.jpg" alt="Cute Memory" style="max-width: 90vw; max-height: 350px; border-radius: 12px; margin-top: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-   <div id="timer"></div>
-  </div>
+<script>
+let count = 0;
+let nextMonth;
+let countdownInterval;
+const startDate = new Date(2025, 5, 2);
+const lastEventDate = new Date(2025, 6, 22); // Example: July 12, 2025
 
-  <script>
-    let count = 0;
-    let nextMonth;
-    let countdownInterval; 
+function increaseCount() {
+  count += 3;
+  document.getElementById('countDisplay').textContent = 'Score: ' + count;
+  moveOshawott();
+  const messageBox = document.getElementById('awesomeMessage');
+  const resetBtn = document.getElementById('resetBtn');
 
-    function increaseCount() {
-      count = count + 3;
-      document.getElementById('countDisplay').textContent = 'Score: ' + count;
-      moveOshawott();
-      const messageBox = document.getElementById('awesomeMessage');
-      const resetBtn = document.getElementById('resetBtn');
-
-      if (count === 42) {
-        messageBox.textContent = "✨ You found the meaning of love (and the universe)! ✨";
-      } else if (count === 69) {
-        messageBox.textContent = "Nice.";
-      } else {
-        messageBox.textContent = '';
-      }
-
-      if (count >= 42) {
-        resetBtn.style.display = 'inline-block';
-      } else {
-        resetBtn.style.display = 'none';
-      }
-    }
-
-    function resetScore() {
-      count = 0;
-      document.getElementById('countDisplay').textContent = 'Score: 0';
-      document.getElementById('awesomeMessage').textContent = '';
-      document.getElementById('resetBtn').style.display = 'none';
-      launchConfetti();
-    }
-
-    function moveOshawott() {
-      const gameArea = document.getElementById('gameArea');
-      const oshawott = document.getElementById('oshawottImg');
-      const maxX = gameArea.clientWidth - oshawott.clientWidth;
-      const maxY = gameArea.clientHeight - oshawott.clientHeight;
-      const randX = Math.floor(Math.random() * maxX);
-      const randY = Math.floor(Math.random() * maxY);
-      oshawott.style.left = randX + 'px';
-      oshawott.style.top = randY + 'px';
-    }
-
-    function showPage(id) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-   
-      if (countdownInterval) clearInterval(countdownInterval);
-      if (id === 'time') updatePage2();
-    }
-
-    const startDate = new Date(2025, 5, 02);
-
-    function daysBetween(date1, date2) {
-    const diff = date2 - date1;
-    return Math.floor(diff / (1000 * 60 * 60 * 24));
+  if (count === 42) {
+    messageBox.textContent = "✨ You found the meaning of love (and the universe)! ✨";
+  } else if (count === 69) {
+    messageBox.textContent = "Nice.";
+  } else {
+    messageBox.textContent = '';
   }
 
-  function updatePage2() {
-    const now = new Date();
-    const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
-    const monthAnniversary = new Date(startDate);
-    monthAnniversary.setMonth(startDate.getMonth() + monthsDiff);
-    const dayDiff = daysBetween(monthAnniversary, now);
-    document.getElementById('monthsTogether').textContent =
-      `We have been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} and ${dayDiff} day${dayDiff !== 1 ? 's' : ''} 💕`;
-    
-    nextMonth = new Date(startDate);
-    nextMonth.setMonth(startDate.getMonth() + monthsDiff + 1);
-    if (countdownInterval) clearInterval(countdownInterval);
-    countdownInterval = setInterval(updateCountdown, 1000);
+  if (count >= 42) {
+    resetBtn.style.display = 'inline-block';
+  } else {
+    resetBtn.style.display = 'none';
   }
+}
 
-  function resetScore() {
-    count = 0;
-    document.getElementById('countDisplay').textContent = 'Score: 0';
-    document.getElementById('awesomeMessage').textContent = '';
-    document.getElementById('resetBtn').style.display = 'none';
-    launchConfetti();
+function resetScore() {
+  count = 0;
+  document.getElementById('countDisplay').textContent = 'Score: 0';
+  document.getElementById('awesomeMessage').textContent = '';
+  document.getElementById('resetBtn').style.display = 'none';
+  launchConfetti();
+}
+
+function moveOshawott() {
+  const gameArea = document.getElementById('gameArea');
+  const oshawott = document.getElementById('oshawottImg');
+  const maxX = gameArea.clientWidth - oshawott.clientWidth;
+  const maxY = gameArea.clientHeight - oshawott.clientHeight;
+  const randX = Math.floor(Math.random() * maxX);
+  const randY = Math.floor(Math.random() * maxY);
+  oshawott.style.left = randX + 'px';
+  oshawott.style.top = randY + 'px';
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (countdownInterval) clearInterval(countdownInterval);
+  if (id === 'time') updatePage2();
+}
+
+function updatePage2() {
+  const now = new Date();
+  const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+  const monthAnniversary = new Date(startDate);
+  monthAnniversary.setMonth(startDate.getMonth() + monthsDiff);
+  const dayDiff = Math.floor((now - monthAnniversary) / (1000 * 60 * 60 * 24));
+  document.getElementById('monthsTogether').textContent = `We have been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} and ${dayDiff} day${dayDiff !== 1 ? 's' : ''} 💕`;
+
+  const nextMonthAnniversary = new Date(startDate);
+  nextMonthAnniversary.setMonth(startDate.getMonth() + monthsDiff + 1);
+  const daysUntilNext = Math.floor((nextMonthAnniversary - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('timer').textContent = `Days until next monthly milestone: ${daysUntilNext} day${daysUntilNext !== 1 ? 's' : ''}`;
+
+  const specialDayDiff = Math.floor((now - lastEventDate) / (1000 * 60 * 60 * 24));
+  document.getElementById('specialTimer').textContent = `Days since last 🤐🌭: ${specialDayDiff} day${specialDayDiff !== 1 ? 's' : ''}`;
+}
+
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const pieces = [];
+  for (let i = 0; i < 150; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      size: Math.random() * 6 + 4,
+      speed: Math.random() * 3 + 2,
+      color: `hsl(${Math.random() * 360}, 70%, 60%)`
+    });
   }
-
-  function launchConfetti() {
-    const canvas = document.getElementById('confetti-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const pieces = [];
-
-    for (let i = 0; i < 150; i++) {
-      pieces.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height - canvas.height,
-        size: Math.random() * 6 + 4,
-        speed: Math.random() * 3 + 2,
-        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
-        tilt: Math.random() * 10 - 5
-      });
+  let frame;
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let p of pieces) {
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x, p.y, p.size, p.size);
+      p.y += p.speed;
+      if (p.y > canvas.height) p.y = 0 - p.size;
     }
-
-    let frame;
-    function drawConfetti() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let p of pieces) {
-        ctx.beginPath();
-        ctx.fillStyle = p.color;
-        ctx.fillRect(p.x, p.y, p.size, p.size);
-        p.y += p.speed;
-        p.x += Math.sin(p.y / 20) * 2;
-        if (p.y > canvas.height) p.y = 0;
-      }
-      frame = requestAnimationFrame(drawConfetti);
-    }
-
-    drawConfetti();
-    setTimeout(() => cancelAnimationFrame(frame), 3000);
+    frame = requestAnimationFrame(drawConfetti);
   }
-    function updateCountdown() {
-      const now = new Date();
-      const diff = nextMonth - now;
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const mins = Math.floor((diff / (1000 * 60)) % 60);
-      const secs = Math.floor((diff / 1000) % 60);
-      document.getElementById('timer').textContent = `Next monthly milestone in: ${days}d ${hours}h ${mins}m ${secs}s`;
-    }
+  drawConfetti();
+  setTimeout(() => cancelAnimationFrame(frame), 3000);
+}
 
+const notes = [
+  { text: "You're my favorite person.", img: "pic1.jpg" },
+  { text: "Every day with you is a gift.", img: "pic2.jpg" },
+  { text: "You make me feel safe and loved.", img: "pic3.jpg" },
+  { text: "I’m so lucky I get to call you mine.", img: "pic4.jpg" },
+  { text: "Your smile is my favorite thing in the world.", img: "pic5.jpg" },
+  { text: "You're the melody my heart didn't know it was waiting to sing.", img: "pic6.jpg" },
+  { text: "You are the peanut butter to my jelly.", img: "pic7.jpg" }
+];
 
-    const notes = [
-      { text: "You're my favorite person.", img: "pic1.jpg" },
-      { text: "Every day with you is a gift.", img: "pic2.jpg" },
-      { text: "You make me feel safe and loved.", img: "pic3.jpg" },
-      { text: "I’m so lucky I get to call you mine.", img: "pic4.jpg" },
-      { text: "Your smile is my favorite thing in the world.", img: "pic5.jpg" },
-      { text: "You're the melody my heart didn't know it was waiting to sing.", img: "pic6.jpg" },
-      { text: "You are the peanut butter to my jelly.", img: "pic7.jpg" }
-    ];
+let noteIndex = 0;
+function nextNote() {
+  noteIndex = (noteIndex + 1) % notes.length;
+  document.getElementById("noteText").textContent = notes[noteIndex].text;
+  document.getElementById("noteImage").src = notes[noteIndex].img;
+}
 
-    let noteIndex = 0;
-
-    function nextNote() {
-      noteIndex = (noteIndex + 1) % notes.length;
-      document.getElementById("noteText").textContent = notes[noteIndex].text;
-      document.getElementById("noteImage").src = notes[noteIndex].img;
-    }
-
-    window.onload = () => {
-      moveOshawott();
-      updatePage2();
-    };
-  </script>
+window.onload = () => {
+  moveOshawott();
+  updatePage2();
+};
+</script>
 
 </body>
 </html>
