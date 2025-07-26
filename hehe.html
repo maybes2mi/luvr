@@ -130,7 +130,7 @@
 </div>
 
 <div id="oshawott" class="page">
-  <h1>🦦 Oshawott Zone</h1>
+  <h1>🥦 Oshawott Zone</h1>
   <p>Catch Oshawott if you can!~</p>
   <div id="gameArea">
     <img id="oshawottImg" class="spin" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/501.png" alt="Oshawott" onclick="increaseCount()">
@@ -153,7 +153,7 @@ let count = 0;
 let nextMonth;
 let countdownInterval;
 const startDate = new Date(2025, 5, 2);
-const lastEventDate = new Date(2025, 6, 22); 
+const lastEventDate = new Date(2025, 6, 12); // Example: July 12, 2025
 
 function increaseCount() {
   count += 3;
@@ -200,7 +200,10 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (countdownInterval) clearInterval(countdownInterval);
-  if (id === 'time') updatePage2();
+  if (id === 'time') {
+    updatePage2();
+    countdownInterval = setInterval(updatePage2, 1000);
+  }
 }
 
 function updatePage2() {
@@ -225,7 +228,7 @@ function updatePage2() {
   const hoursSpecial = Math.floor((msSinceSpecial / (1000 * 60 * 60)) % 24);
   const minsSpecial = Math.floor((msSinceSpecial / (1000 * 60)) % 60);
   const secsSpecial = Math.floor((msSinceSpecial / 1000) % 60);
-  document.getElementById('specialTimer').textContent = `Days since last 🤐🌭😛: ${daysSpecial}d ${hoursSpecial}h ${minsSpecial}m ${secsSpecial}s`;
+  document.getElementById('specialTimer').textContent = `Days since last [special thing]: ${daysSpecial}d ${hoursSpecial}h ${minsSpecial}m ${secsSpecial}s`;
 }
 
 function launchConfetti() {
