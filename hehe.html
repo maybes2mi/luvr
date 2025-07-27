@@ -201,12 +201,12 @@ function showPage(id) {
   document.getElementById(id).classList.add('active');
   if (countdownInterval) clearInterval(countdownInterval);
   if (id === 'time') {
-    updatePage2();
-    countdownInterval = setInterval(updatePage2, 1000);
+    updateTimer();
+    countdownInterval = setInterval(updateTimer, 1000);
   }
 }
 
-function updatePage2() {
+function updateTimer() {
   const now = new Date();
   const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
   const monthAnniversary = new Date(startDate);
@@ -274,7 +274,20 @@ const notes = [
   { text: "I’m so lucky I get to call you mine.", img: "pic4.jpg" },
   { text: "Your smile is my favorite thing in the world.", img: "pic5.jpg" },
   { text: "You're the melody my heart didn't know it was waiting to sing.", img: "pic6.jpg" },
-  { text: "You are the peanut butter to my jelly.", img: "pic7.jpg" }
+  { text: "You are the peanut butter to my jelly.", img: "pic7.jpg" },
+  { text: "I fall for you a little more every single day.", img: "pic8.jpg" },
+  { text: "You're the best part of my favorite memories.", img: "pic9.jpg" },
+  { text: "I like you more than I like sleeping in.  And that says a lot.", img: "pic10.jpg" },
+  { text: "You make everything feel a little more magical.", img: "pic11.jpg" },
+  { text: "I would share my last bite with you.  Probably...", img: "pic12.jpg" },
+  { text: "If I could bottle up your laugh, I’d keep it forever.", img: "pic13.jpg" },
+  { text: "You’re the feeling I was chasing every time I said I wanted to go home.", img: "pic14.jpg" },
+  { text: "You're my favorite reason to look at my phone.", img: "pic15.jpg" },
+  { text: "I like you in the way people write letters they never send.", img: "pic16.jpg" },
+  { text: "No song has ever made me feel the way you do when you say my name.", img: "pic17.jpg" },
+  { text: "You make me feel like maybe I’m not too much after all.", img: "pic18.jpg" },
+  { text: "I keep rereading our texts like they’re a novel I never want to finish.", img: "pic19.jpg" },
+  { text: "I didn’t believe in soulmates, but then you started looking at me like that.", img: "pic20.jpg" }
 ];
 
 let noteIndex = 0;
@@ -286,7 +299,7 @@ function nextNote() {
 
 window.onload = () => {
   moveOshawott();
-  updatePage2();
+  updateTimer();
 };
 </script>
 
