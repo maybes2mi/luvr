@@ -156,11 +156,14 @@
     
     .memCol { min-width: 0; }
     .memCenter {
-      display: flex; align-items: center; justify-content: center;
-      background: #ffffff; border-radius: 16px;
+      align-self: stretch;   
+      display: grid;           
+      place-items: center;     
+      background: #ffffff;
+      border-radius: 16px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       padding: 18px;
-    }
+    }  
     .memMessage {
       font-size: 1.3rem; color: #006064; text-align: center; line-height: 1.5;
       margin: 0;
@@ -180,13 +183,16 @@
       aspect-ratio: 1 / 1;   
       object-fit: cover; display: block;
     }
-    #memTexts .memCard img {
-      object-fit: contain;
-      aspect-ratio: auto;
+    #memTexts .memCard img,
+    #memDates .memCard img {
       width: 100%;
-      height: auto;
+      height: 240px;    
+      aspect-ratio: 1 / 1; 
       background: #ffffff;
     }
+    
+    #memTexts .memCard img { object-fit: contain; }
+    #memDates .memCard img { object-fit: contain; }
     .memSubhead {
       color: #0077b6;
       margin: 16px 0 8px;
@@ -228,11 +234,11 @@
     </div>
 
   <div class="memCol memCenter">
-      <p id="memMessage" class="memMessage"></p>
+      <p id="memMessage" class="memMsg"></p>
     </div>
 
     <div class="memCol memRight">
-      <h3 class="memSubhead">Dates 🍣</h3>
+      <h3 class="memSubhead">Pics 🍣</h3>
       <div id="memDates" class="memGrid4"></div>
     </div>
   </div>
@@ -486,11 +492,23 @@ async function loadMemoriesData() {
   memData = await res.json();
 }
 
+function fmtMonthLabel(key) {
+  // key is "YYYY-MM"
+  const [y, m] = key.split('-');
+  const names = ["Jan","Feb","Mar","Apr","May","Jun","Jul",
+                 "Aug","Sept","Oct","Nov","Dec"];
+  return `${names[parseInt(m, 10) - 1]} ${y}`;
+}
+
 function fillMemMonthOptions() {
   const sel = document.getElementById('memMonth');
   if (!sel || !memData) return;
+
   const months = Object.keys(memData).sort().reverse(); 
-  sel.innerHTML = months.map(m => `<option value="${m}">${m}</option>`).join('');
+  sel.innerHTML = months
+    .map(m => `<option value="${m}">${fmtMonthLabel(m)}</option>`)
+    .join('');
+
   if (!sel.value && months.length) sel.value = months[0];
   sel.onchange = () => renderMemories(sel.value);
 }
@@ -552,6 +570,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
