@@ -20,8 +20,10 @@
       font-size: 2.4rem;
     }
     h2 {
+      color: #0077b6;
       font-size: 2rem;
     }
+    
     p, #countDisplay, #timer, #awesomeMessage, #specialTimer {
       font-size: 1.8rem;
     }
@@ -251,13 +253,17 @@ async function loadFlights() {
         return;
       }
 
-
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const mins = Math.floor((diff / (1000 * 60)) % 60);
       const secs = Math.floor((diff / 1000) % 60);
 
-      msg.textContent = 'Be home soon! 🥰';
+      if (next.homeFor) {
+        msg.textContent = `Be home soon for ${next.homeFor}! 🥰`;
+      } else {
+        msg.textContent = 'Be home soon! 🥰';
+      }
+
       cd.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
     }
 
@@ -431,6 +437,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
