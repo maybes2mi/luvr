@@ -144,6 +144,7 @@
   <button onclick="showPage('notes')">Love Notes</button>
   <button onclick="showPage('oshawott')">Oshawott</button>
   <button onclick="showPage('time')">Time With You</button>
+  <button onclick="showPage('flight')">Flight Home</button>
 </nav>
 
 <div id="notes" class="page active">
@@ -177,12 +178,113 @@
   <div id="specialTimer"></div>
 </div>
 
+<div id="flight" class="page">
+  <h2>Flight Home ✈️</h2>
+  <p id="flightMessage" style="margin-top:10px; font-size:1.4rem; color:#006064;"></p>
+  <div id="flightCountdown" style="font-size:2rem; margin-top:8px;"></div>
+  <div id="flightList" style="margin-top:16px; font-size:1rem; color:#004d40;"></div>
+  <div style="margin-top:10px;">
+    <button type="button" onclick="reloadFlights()">Reload</button>
+  </div>
+</div>
+
+
 <script>
 let count = 0;
 let nextMonth;
 let countdownInterval;
 const startDate = new Date(2025, 5, 2);
 const lastEventDate = new Date(2025, 7, 21);
+let flightInterval;
+const FLIGHTS_JSON_PATH = 'flights.json'; 
+
+function normalizeFlights(raw) {
+  return (raw || []).map(item => {
+    if (typeof item === 'string') return { time: item, note: '' };
+    return { time: item.time, note: item.note || '' };
+  });
+}
+
+async function loadFlights() {
+  const listDiv = document.getElementById('flightList');
+  const msg = document.getElementById('flightMessage');
+  const cd = document.getElementById('flightCountdown');
+
+  listDiv.textContent = 'Loading...';
+  msg.textContent = '';
+  cd.textContent = '';
+
+  try {
+    const res = await fetch(FLIGHTS_JSON_PATH + '?v=' + Date.now());
+    if (!res.ok) throw new Error('Could not fetch flights.json');
+    const data = normalizeFlights(await res.json());
+
+    const now = new Date();
+    const future = data
+      .map(f => ({ ...f, date: new Date(f.time) }))
+      .filter(f => f.date > now)
+      .sort((a, b) => a.date - b.date);
+
+    if (future.length === 0) {
+      listDiv.textContent = 'No flights scheduled.';
+      msg.textContent = 'No flights scheduled.';
+      cd.textContent = '';
+      if (flightInterval) clearInterval(flightInterval);
+      return;
+    } else {
+      listDiv.innerHTML = '<strong>Upcoming flights:</strong><br>' +
+        future.map(f => {
+          const when = f.date.toLocaleString();
+          return `${when}${f.note ? ' — ' + f.note : ''}`;
+        }).join('<br>');
+    }
+
+    const next = future[0];
+
+    function tick() {
+      const now = new Date();
+      const diff = next.date - now;
+
+      if (diff <= 0) {
+        msg.textContent = "I'm home! 💕";
+        cd.textContent = '';
+        if (flightInterval) clearInterval(flightInterval);
+        setTimeout(loadFlights, 1500);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      msg.textContent = 'Be home soon! 🥰';
+      cd.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+    }
+
+    if (flightInterval) clearInterval(flightInterval);
+    tick();
+    flightInterval = setInterval(tick, 1000);
+
+  } catch (e) {
+    listDiv.textContent = 'Failed to load flights.';
+    console.error(e);
+  }
+}
+
+function reloadFlights() {
+  if (flightInterval) clearInterval(flightInterval);
+  loadFlights();
+}
+
+const __origShowPage = showPage;
+showPage = function(id) {
+  __origShowPage(id);
+  if (id === 'flight') {
+    reloadFlights();
+  }
+};
+
 
 function increaseCount() {
   count += 3;
@@ -331,6 +433,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
