@@ -204,11 +204,9 @@ function normalizeFlights(raw) {
 }
 
 async function loadFlights() {
-  const listDiv = document.getElementById('flightList');
   const msg = document.getElementById('flightMessage');
   const cd = document.getElementById('flightCountdown');
 
-  listDiv.textContent = 'Loading...';
   msg.textContent = '';
   cd.textContent = '';
 
@@ -224,13 +222,11 @@ async function loadFlights() {
       .sort((a, b) => a.date - b.date);
 
     if (future.length === 0) {
-      listDiv.textContent = 'No flights scheduled.';
       msg.textContent = 'No flights scheduled.';
       cd.textContent = '';
       if (flightInterval) clearInterval(flightInterval);
       return;
     } else {
-      listDiv.innerHTML = '<strong>Upcoming flights:</strong><br>' +
         future.map(f => {
           const when = f.date.toLocaleString();
           return `${when}${f.note ? ' — ' + f.note : ''}`;
@@ -252,7 +248,6 @@ async function loadFlights() {
         cd.textContent = '';
         if (flightInterval) clearInterval(flightInterval);
         flights.shift(); 
-        updateFlightList();
         return;
       }
 
@@ -271,7 +266,6 @@ async function loadFlights() {
     flightInterval = setInterval(tick, 1000);
 
   } catch (e) {
-    listDiv.textContent = 'Failed to load flights.';
     console.error(e);
   }
 }
@@ -437,6 +431,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
