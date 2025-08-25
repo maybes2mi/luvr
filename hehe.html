@@ -136,6 +136,57 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    .memControls {
+  display: inline-flex; gap: 10px; align-items: center;
+  margin: 8px 0 16px;
+  }
+  .memControls select, .memControls button {
+    padding: 8px 10px; border: 1px solid #9ad1d8; border-radius: 8px; font-size: 1rem;
+  }
+  
+  .memBoard {
+    display: grid;
+    grid-template-columns: 1fr 320px 1fr;  
+    gap: 18px;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 10px 24px;
+  }
+  
+  .memCol { min-width: 0; }
+  .memCenter {
+    display: flex; align-items: center; justify-content: center;
+    background: #ffffff; border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    padding: 18px;
+  }
+  .memMessage {
+    font-size: 1.3rem; color: #006064; text-align: center; line-height: 1.5;
+    margin: 0;
+  }
+  
+  .memGrid4 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .memCard {
+    position: relative; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.10); background: #fff;
+  }
+  .memCard img {
+    width: 100%;
+    aspect-ratio: 1 / 1;   
+    object-fit: cover; display: block;
+  }
+  
+  @media (max-width: 820px) {
+    .memBoard { grid-template-columns: 1fr; }
+    .memCenter { order: 2; }
+    .memLeft   { order: 1; }
+    .memRight  { order: 3; }
+  }
   </style>
 </head>
 <body>
@@ -143,18 +194,39 @@
 <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; pointer-events:none; z-index:999;"></canvas>
 
 <nav>
-  <button onclick="showPage('notes')">Love Notes</button>
+  <button onclick="showPage('memories')">Loving You</button>
   <button onclick="showPage('oshawott')">Oshawott</button>
-  <button onclick="showPage('time')">Time With You</button>
+  <button onclick="showPage('time')">Time Together</button>
   <button onclick="showPage('flight')">Flight Home</button>
 </nav>
 
-<div id="notes" class="page active">
+<div id="memories" class="page active">
   <h1>Hi pookie bear! 💖</h1>
   <p>WELCOME TO SAMI CRINGE PROJCET</p>
-  <button onclick="nextNote()">Next Note</button>
-  <img id="noteImage" src="pic1.jpg" alt="Memory" />
-  <p id="noteText">You're my favorite person.</p>
+
+  <div class="memControls">
+    <label for="memMonth">Month:</label>
+    <select id="memMonth"></select>
+    <button type="button" onclick="reloadMemories()">Reload</button>
+  </div>
+
+  <p id="memMessage" class="memMessage"></p>
+
+  <div class="memBoard">
+    <div class="memCol memLeft">
+      <h3 class="memSubhead">Cute Texts 💌</h3>
+      <div id="memTexts" class="memGrid4"></div>
+    </div>
+
+  <div class="memCol memCenter">
+      <p id="memMessage" class="memMessage"></p>
+    </div>
+
+    <div class="memCol memRight">
+      <h3 class="memSubhead">Dates 🍣</h3>
+      <div id="memDates" class="memGrid4"></div>
+    </div>
+  </div>
 </div>
 
 <div id="oshawott" class="page">
@@ -200,8 +272,8 @@ const FLIGHTS_JSON_PATH = 'flights.json';
 
 function normalizeFlights(raw) {
   return (raw || []).map(item => {
-    if (typeof item === 'string') return { time: item, note: '' };
-    return { time: item.time, note: item.note || '' };
+    if (typeof item === 'string') return { time: item, note: '', homeFor: '' };
+    return { time: item.time, note: item.note || '', homeFor: item.homeFor || '' };
   });
 }
 
@@ -228,11 +300,6 @@ async function loadFlights() {
       cd.textContent = '';
       if (flightInterval) clearInterval(flightInterval);
       return;
-    } else {
-        future.map(f => {
-          const when = f.date.toLocaleString();
-          return `${when}${f.note ? ' — ' + f.note : ''}`;
-        }).join('<br>');
     }
 
     const next = future[0];
@@ -284,9 +351,9 @@ function reloadFlights() {
 const __origShowPage = showPage;
 showPage = function(id) {
   __origShowPage(id);
-  if (id === 'flight') {
-    reloadFlights();
-  }
+  if (id === 'flight') reloadFlights();
+  if (id === 'memories') loadMemories();
+  };
 };
 
 
@@ -402,33 +469,72 @@ function launchConfetti() {
   }, 3000);
 }
 
-const notes = [
-  { text: "You're my favorite person.", img: "pic1.jpg" },
-  { text: "Every day with you is a gift.", img: "pic2.jpg" },
-  { text: "You make me feel safe and loved.", img: "pic3.png" },
-  { text: "I’m so lucky I get to call you mine.", img: "pic4.jpg" },
-  { text: "You are the peanut butter to my jelly.", img: "pic5.jpg" },
-  { text: "You're the melody my heart didn't know it was waiting to sing.", img: "pic6.jpg" },
-  { text: "Your smile is my favorite thing in the world.", img: "pic7.jpg" },
-  { text: "I keep rereading our texts like they’re a novel I never want to finish.", img: "pic8.png" },
-  { text: "I fall for you a little more every single day.", img: "pic9.jpg" },
-  { text: "I like you more than I like sleeping in.  And that says a lot.", img: "pic10.png" },
-  { text: "You make me feel like maybe I’m not too much after all.", img: "pic11.jpg" },
-  { text: "You make everything feel a little more magical.", img: "pic12.png" },
-  { text: "I would share my last bite with you.  Probably...", img: "pic13.jpg" },
-  { text: "You’re the feeling I was chasing every time I said I wanted to go home.", img: "pic14.jpg" },
-  { text: "You're my favorite reason to look at my phone.", img: "pic15.png" },
-  { text: "I like you in the way people write letters they never send.", img: "pic16.jpg" },
-  { text: "Every time you look at me, I forget how heavy the world is.", img: "pic17.jpg" }
-];
+const MEM_JSON_PATH = 'memories.json'; 
+let memData = null;
 
-let noteIndex = 0;
-function nextNote() {
-  noteIndex = (noteIndex + 1) % notes.length;
-  document.getElementById("noteText").textContent = notes[noteIndex].text;
-  document.getElementById("noteImage").src = notes[noteIndex].img;
+async function loadMemoriesData() {
+  const res = await fetch(MEM_JSON_PATH + '?v=' + Date.now());
+  if (!res.ok) throw new Error('Could not fetch memories.json');
+  memData = await res.json();
 }
 
+function fillMemMonthOptions() {
+  const sel = document.getElementById('memMonth');
+  if (!sel || !memData) return;
+  const months = Object.keys(memData).sort().reverse(); 
+  sel.innerHTML = months.map(m => `<option value="${m}">${m}</option>`).join('');
+  if (!sel.value && months.length) sel.value = months[0];
+  sel.onchange = () => renderMemories(sel.value);
+}
+
+function renderGrid4(wrapperId, items) {
+  const wrap = document.getElementById(wrapperId);
+  if (!wrap) return;
+  const list = (items || []).slice(0, 4);  // up to 4
+  if (list.length === 0) {
+    wrap.innerHTML = '<div style="color:#006064; grid-column:1/-1; text-align:center;">Nothing yet.</div>';
+    return;
+  }
+  wrap.innerHTML = list.map(it => `
+    <div class="memCard">
+      <img src="${it.src}" alt="">
+    </div>
+  `).join('');
+}
+
+function renderMemories(monthKey) {
+  const msg = document.getElementById('memMessage');
+  if (!memData || !memData[monthKey]) {
+    if (msg) msg.textContent = 'No memories for this month yet.';
+    renderGrid4('memTexts', []);
+    renderGrid4('memDates', []);
+    return;
+  }
+  const { message = '', texts = [], dates = [] } = memData[monthKey];
+  if (msg) msg.textContent = message || '';
+  renderGrid4('memTexts', texts);
+  renderGrid4('memDates', dates);
+}
+
+async function loadMemories() {
+  try {
+    if (!memData) await loadMemoriesData();
+    fillMemMonthOptions();
+    const sel = document.getElementById('memMonth');
+    const months = Object.keys(memData).sort().reverse();
+    renderMemories(sel && sel.value ? sel.value : months[0]);
+  } catch (e) {
+    console.error(e);
+    const msg = document.getElementById('memMessage');
+    if (msg) msg.textContent = 'Failed to load memories.';
+  }
+}
+
+function reloadMemories() {
+  memData = null;
+  loadMemories();
+}
+  
 window.onload = () => {
   moveOshawott();
   updateTimer();
@@ -437,6 +543,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
