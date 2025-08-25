@@ -137,56 +137,67 @@
       100% { transform: rotate(360deg); }
     }
     .memControls {
-  display: inline-flex; gap: 10px; align-items: center;
-  margin: 8px 0 16px;
-  }
-  .memControls select, .memControls button {
-    padding: 8px 10px; border: 1px solid #9ad1d8; border-radius: 8px; font-size: 1rem;
-  }
-  
-  .memBoard {
-    display: grid;
-    grid-template-columns: 1fr 320px 1fr;  
-    gap: 18px;
-    align-items: start;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 10px 24px;
-  }
-  
-  .memCol { min-width: 0; }
-  .memCenter {
-    display: flex; align-items: center; justify-content: center;
-    background: #ffffff; border-radius: 16px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    padding: 18px;
-  }
-  .memMessage {
-    font-size: 1.3rem; color: #006064; text-align: center; line-height: 1.5;
-    margin: 0;
-  }
-  
-  .memGrid4 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-  .memCard {
-    position: relative; border-radius: 12px; overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.10); background: #fff;
-  }
-  .memCard img {
-    width: 100%;
-    aspect-ratio: 1 / 1;   
-    object-fit: cover; display: block;
-  }
-  
-  @media (max-width: 820px) {
-    .memBoard { grid-template-columns: 1fr; }
-    .memCenter { order: 2; }
-    .memLeft   { order: 1; }
-    .memRight  { order: 3; }
-  }
+    display: inline-flex; gap: 10px; align-items: center;
+    margin: 8px 0 16px;
+    }
+    .memControls select, .memControls button {
+      padding: 8px 10px; border: 1px solid #9ad1d8; border-radius: 8px; font-size: 1rem;
+    }
+    
+    .memBoard {
+      display: grid;
+      grid-template-columns: 1fr 320px 1fr;  
+      gap: 18px;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 10px 24px;
+    }
+    
+    .memCol { min-width: 0; }
+    .memCenter {
+      display: flex; align-items: center; justify-content: center;
+      background: #ffffff; border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      padding: 18px;
+    }
+    .memMessage {
+      font-size: 1.3rem; color: #006064; text-align: center; line-height: 1.5;
+      margin: 0;
+    }
+    
+    .memGrid4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .memCard {
+      position: relative; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.10); background: #fff;
+    }
+    .memCard img {
+      width: 100%;
+      aspect-ratio: 1 / 1;   
+      object-fit: cover; display: block;
+    }
+    #memTexts .memCard img {
+      object-fit: contain;
+      aspect-ratio: auto;
+      width: 100%;
+      height: auto;
+      background: #ffffff;
+    }
+    .memSubhead {
+      color: #0077b6;
+      margin: 16px 0 8px;
+      font-size: 1.3rem;
+    }
+    @media (max-width: 820px) {
+      .memBoard { grid-template-columns: 1fr; }
+      .memCenter { order: 2; }
+      .memLeft   { order: 1; }
+      .memRight  { order: 3; }
+    }
   </style>
 </head>
 <body>
@@ -209,8 +220,6 @@
     <select id="memMonth"></select>
     <button type="button" onclick="reloadMemories()">Reload</button>
   </div>
-
-  <p id="memMessage" class="memMessage"></p>
 
   <div class="memBoard">
     <div class="memCol memLeft">
@@ -316,7 +325,7 @@ async function loadFlights() {
         }
         cd.textContent = '';
         if (flightInterval) clearInterval(flightInterval);
-        flights.shift(); 
+        setTimeout(loadFlights, 2000);
         return;
       }
 
@@ -354,7 +363,6 @@ showPage = function(id) {
   if (id === 'flight') reloadFlights();
   if (id === 'memories') loadMemories();
   };
-};
 
 
 function increaseCount() {
@@ -538,11 +546,13 @@ function reloadMemories() {
 window.onload = () => {
   moveOshawott();
   updateTimer();
+  loadMemories();
 };
 </script>
 
 </body>
 </html>
+
 
 
 
