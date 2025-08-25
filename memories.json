@@ -1,0 +1,62 @@
+{
+  "2025-08": {
+    "message": "August",
+    "texts": [
+      { "src": "mem/2025-08/text1.jpg"},
+      { "src": "mem/2025-08/text2.jpg" },
+      { "src": "mem/2025-08/text3.jpg" },
+      { "src": "mem/2025-08/text4.jpg" }
+    ],
+    "dates": [
+      { "src": "mem/2025-08/date1.jpg"},
+      { "src": "mem/2025-08/date2.jpg" },
+      { "src": "mem/2025-08/date3.jpg" },
+      { "src": "mem/2025-08/date4.jpg" }
+    ]
+  },
+  "2025-07": {
+    "message": "July",
+    "texts": [
+      { "src": "mem/2025-07/text1.jpg" },
+      { "src": "mem/2025-07/text2.jpg" },
+      { "src": "mem/2025-07/text3.jpg" },
+      { "src": "mem/2025-07/text4.jpg" }
+    ],
+    "dates": [
+      { "src": "mem/2025-07/date1.jpg" },
+      { "src": "mem/2025-07/date2.jpg" },
+      { "src": "mem/2025-07/date3.jpg" },
+      { "src": "mem/2025-07/date4.jpg" }
+    ]
+  },
+  "2025-06": {
+    "message": "June",
+    "texts": [
+      { "src": "mem/2025-06/text1.jpg" },
+      { "src": "mem/2025-06/text2.jpg" },
+      { "src": "mem/2025-06/text3.jpg" },
+      { "src": "mem/2025-06/text4.jpg" }
+    ],
+    "dates": [
+      { "src": "mem/2025-06/date1.jpg" },
+      { "src": "mem/2025-06/date2.jpg" },
+      { "src": "mem/2025-06/date3.jpg" },
+      { "src": "mem/2025-06/date4.jpg" }
+    ]
+  },
+  "2025-05": {
+    "message": "May",
+    "texts": [
+      { "src": "mem/2025-05/text1.jpg" },
+      { "src": "mem/2025-05/text2.jpg" },
+      { "src": "mem/2025-05/text3.jpg" },
+      { "src": "mem/2025-05/text4.jpg" }
+    ],
+    "dates": [
+      { "src": "mem/2025-05/date1.jpg" },
+      { "src": "mem/2025-05/date2.jpg" },
+      { "src": "mem/2025-05/date3.jpg" },
+      { "src": "mem/2025-05/date4.jpg" }
+    ]
+  }
+}
