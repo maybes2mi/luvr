@@ -246,12 +246,18 @@ async function loadFlights() {
       const diff = next.date - now;
 
       if (diff <= 0) {
-        msg.textContent = "I'm home! 💕";
+        if (next.homeFor) {
+          msg.textContent = `I'm home for ${next.homeFor}! 💕`;
+        } else {
+          msg.textContent = "I'm home! 💕";
+        }
         cd.textContent = '';
         if (flightInterval) clearInterval(flightInterval);
-        setTimeout(loadFlights, 1500);
+        flights.shift(); 
+        updateFlightList();
         return;
       }
+
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -433,6 +439,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
