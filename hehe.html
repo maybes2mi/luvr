@@ -355,6 +355,9 @@ async function loadFlights() {
 
   } catch (e) {
     console.error(e);
+    msg.textContent = 'Could not load flights right now.';
+    cd.textContent = '';
+    if (flightInterval) clearInterval(flightInterval);
   }
 }
 
@@ -362,14 +365,6 @@ function reloadFlights() {
   if (flightInterval) clearInterval(flightInterval);
   loadFlights();
 }
-
-const __origShowPage = showPage;
-showPage = function(id) {
-  __origShowPage(id);
-  if (id === 'flight') reloadFlights();
-  if (id === 'memories') loadMemories();
-  };
-
 
 function increaseCount() {
   count += 3;
@@ -415,10 +410,20 @@ function moveOshawott() {
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+
   if (countdownInterval) clearInterval(countdownInterval);
+
   if (id === 'time') {
     updateTimer();
     countdownInterval = setInterval(updateTimer, 1000);
+  }
+
+  if (id === 'flight') {
+    reloadFlights(); 
+  }
+
+  if (id === 'memories') {
+    loadMemories(); 
   }
 }
 
@@ -570,19 +575,3 @@ window.onload = () => {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
