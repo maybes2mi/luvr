@@ -285,6 +285,29 @@ const lastEventDate = new Date(2025, 8, 7);
 let flightInterval;
 const FLIGHTS_JSON_PATH = 'flights.json'; 
 
+function normalizeFlights(raw) {
+  let arr = [];
+
+  if (Array.isArray(raw)) {
+    arr = raw;
+  } else if (raw && typeof raw === 'object' && Array.isArray(raw.flights)) {
+    arr = raw.flights;
+  } else {
+    return [];
+  }
+
+  return arr
+    .map(f => ({
+      time: f.time,               
+      homeUntil: f.homeUntil || null,
+      homeFor: f.homeFor || null
+    }))
+    .filter(f => {
+      const s = new Date(f.time);
+      return !isNaN(s.getTime());
+    });
+}
+  
 async function loadFlights() {
   const msg = document.getElementById('flightMessage');
   const cd  = document.getElementById('flightCountdown');
@@ -575,3 +598,4 @@ window.onload = () => {
 
 </body>
 </html>
+
