@@ -281,72 +281,72 @@ let count = 0;
 let nextMonth;
 let countdownInterval;
 const startDate = new Date(2025, 5, 2);
-const lastEventDate = new Date(2025, 7, 21);
+const lastEventDate = new Date(2025, 8, 6);
 let flightInterval;
 const FLIGHTS_JSON_PATH = 'flights.json'; 
 
-function normalizeFlights(raw) {
-  return (raw || []).map(item => {
-    if (typeof item === 'string') return { time: item, note: '', homeFor: '' };
-    return { time: item.time, note: item.note || '', homeFor: item.homeFor || '' };
-  });
-}
-
 async function loadFlights() {
   const msg = document.getElementById('flightMessage');
-  const cd = document.getElementById('flightCountdown');
-
+  const cd  = document.getElementById('flightCountdown');
   msg.textContent = '';
-  cd.textContent = '';
+  cd.textContent  = '';
 
   try {
     const res = await fetch(FLIGHTS_JSON_PATH + '?v=' + Date.now());
     if (!res.ok) throw new Error('Could not fetch flights.json');
+
     const data = normalizeFlights(await res.json());
+    const windows = data.map(f => {
+      const start = new Date(f.time);
+      const end   = f.homeUntil ? new Date(f.homeUntil) : new Date(f.time);
+      return { ...f, start, end };
+    });
 
     const now = new Date();
-    const future = data
-      .map(f => ({ ...f, date: new Date(f.time) }))
-      .filter(f => f.date > now)
-      .sort((a, b) => a.date - b.date);
+    const GRACE_MS = 90000;
 
-    if (future.length === 0) {
+    const candidates = windows
+      .filter(w => now.getTime() < w.end.getTime() + GRACE_MS)
+      .sort((a, b) => a.start - b.start);
+
+    if (candidates.length === 0) {
       msg.textContent = 'No flights scheduled.';
       cd.textContent = '';
       if (flightInterval) clearInterval(flightInterval);
       return;
     }
 
-    const next = future[0];
+    const current = candidates[0];
+
+    function formatCountdown(ms) {
+      const days  = Math.floor(ms / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+      const mins  = Math.floor((ms / (1000 * 60)) % 60);
+      const secs  = Math.floor((ms / 1000) % 60);
+      return `${days}d ${hours}h ${mins}m ${secs}s`;
+    }
 
     function tick() {
       const now = new Date();
-      const diff = next.date - now;
 
-      if (diff <= 0) {
-        if (next.homeFor) {
-          msg.textContent = `I'm home for ${next.homeFor}! 💕`;
-        } else {
-          msg.textContent = "I'm home! 💕";
-        }
-        cd.textContent = '';
-        if (flightInterval) clearInterval(flightInterval);
-        setTimeout(loadFlights, 2000);
-        return;
-      }
+      if (now.getTime() + GRACE_MS < current.start.getTime()) {
+        msg.textContent = current.homeFor
+          ? `Be home soon for ${current.homeFor}! 🥰`
+          : 'Be home soon! 🥰';
+        cd.textContent = formatCountdown(current.start - now);
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const mins = Math.floor((diff / (1000 * 60)) % 60);
-      const secs = Math.floor((diff / 1000) % 60);
+      } else if (now.getTime() <= current.end.getTime() + GRACE_MS) {
+        msg.textContent = current.homeFor
+          ? `I’m home for ${current.homeFor}! 💕`
+          : 'I’m home! 💕';
+        cd.textContent = current.homeUntil
+          ? `Time left: ${formatCountdown(current.end - now)}`
+          : '';
 
-      if (next.homeFor) {
-        msg.textContent = `Be home soon for ${next.homeFor}! 🥰`;
       } else {
-        msg.textContent = 'Be home soon! 🥰';
+        if (flightInterval) clearInterval(flightInterval);
+        loadFlights();
       }
-
-      cd.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
     }
 
     if (flightInterval) clearInterval(flightInterval);
@@ -516,7 +516,7 @@ function fillMemMonthOptions() {
 function renderGrid4(wrapperId, items) {
   const wrap = document.getElementById(wrapperId);
   if (!wrap) return;
-  const list = (items || []).slice(0, 4);  // up to 4
+  const list = (items || []).slice(0, 4);  
   if (list.length === 0) {
     wrap.innerHTML = '<div style="color:#006064; grid-column:1/-1; text-align:center;">Nothing yet.</div>';
     return;
@@ -570,6 +570,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
