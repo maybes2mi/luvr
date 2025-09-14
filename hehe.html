@@ -280,8 +280,8 @@
 let count = 0;
 let nextMonth;
 let countdownInterval;
-const startDate = new Date(2025, 5, 2);
-const lastEventDate = new Date(2025, 8, 7);
+const startDate = new Date(2025, 5, 2, 13, 57); // YYYY, MM(0-based), DD, HH, MM
+const lastEventDate = new Date(2025, 8, 7, 00, 30);
 let flightInterval;
 const FLIGHTS_JSON_PATH = 'flights.json'; 
 
@@ -455,6 +455,12 @@ function updateTimer() {
   const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
   const monthAnniversary = new Date(startDate);
   monthAnniversary.setMonth(startDate.getMonth() + monthsDiff);
+
+  if (now < monthAnniversary) {
+    monthsDiff -= 1;
+    monthAnniversary.setMonth(monthAnniversary.getMonth() - 1);
+  }
+  
   const dayDiff = Math.floor((now - monthAnniversary) / (1000 * 60 * 60 * 24));
   document.getElementById('monthsTogether').textContent = `We have been together for ${monthsDiff} month${monthsDiff !== 1 ? 's' : ''} and ${dayDiff} day${dayDiff !== 1 ? 's' : ''} 💕`;
 
@@ -598,4 +604,5 @@ window.onload = () => {
 
 </body>
 </html>
+
 
