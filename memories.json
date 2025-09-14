@@ -1,4 +1,19 @@
 {
+  "2025-09": {
+    "message": "My dearest sweetheart(♡ >ω< ♡), thank you for always encouraging me, loving me, and being someone I can rely on.  Even when I have to swallow my pride to ask for help, you never make me feel stupid for not knowing something and for that, I will be forever grateful.  Thank you for helping me learn in every way!:)",
+    "texts": [
+      { "src": "mem/2025-09/text1.png"},
+      { "src": "mem/2025-09/text2.png" },
+      { "src": "mem/2025-09/text3.png" },
+      { "src": "mem/2025-09/text4.png" }
+    ],
+    "dates": [
+      { "src": "mem/2025-09/pic1.jpg"},
+      { "src": "mem/2025-09/pic2.jpg" },
+      { "src": "mem/2025-09/pic3.jpg" },
+      { "src": "mem/2025-09/pic4.jpg" }
+    ]
+  },
   "2025-08": {
     "message": "Hi lovebug💙! I know that we miss and love each other dearly.  Thank you so much for helping me move in during my last year of undergrad.  You are my precious gem that I will always adore. (´▽`ʃ♡ƪ)",
     "texts": [
