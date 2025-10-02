@@ -164,7 +164,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       padding: 18px;
     }  
-    .memMessage {
+    #memMessage {
       font-size: 1.3rem; color: #006064; text-align: center; line-height: 1.5;
       margin: 0;
     }
@@ -452,7 +452,7 @@ function showPage(id) {
 
 function updateTimer() {
   const now = new Date();
-  const monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+  let monthsDiff = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
   const monthAnniversary = new Date(startDate);
   monthAnniversary.setMonth(startDate.getMonth() + monthsDiff);
 
@@ -604,5 +604,6 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
