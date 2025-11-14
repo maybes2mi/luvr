@@ -1,4 +1,19 @@
 {
+  "2025-10": {
+    "message": "Hi myyyy sweetie pie :)  I am so grateful you are in my life!  Every moment I get to spend with you is always so delightful and I look forward to the rest of my life with you <3",
+    "texts": [
+      { "src": "mem/2025-10/text1.png"},
+      { "src": "mem/2025-10/text2.png" },
+      { "src": "mem/2025-10/text3.png" },
+      { "src": "mem/2025-10/text4.png" }
+    ],
+    "dates": [
+      { "src": "mem/2025-10/pic1.jpg"},
+      { "src": "mem/2025-10/pic2.jpg" },
+      { "src": "mem/2025-10/pic3.jpg" },
+      { "src": "mem/2025-10/pic4.jpg" }
+    ]
+  },
   "2025-09": {
     "message": "My dearest sweetheart(♡ >ω< ♡), thank you for always encouraging me, loving me, and being someone I can rely on.  Even when I have to swallow my pride to ask for help, you never make me feel stupid for not knowing something and for that, I will be forever grateful.  Thank you for helping me learn in every way!:)",
     "texts": [
