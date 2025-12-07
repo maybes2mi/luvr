@@ -269,6 +269,7 @@
 
 <div id="flight" class="page">
   <h2>Flight Home ✈️</h2>
+  <p>Flights taken: <span id="flightCount"></span></p>
   <p id="flightMessage" style="margin-top:10px; font-size:1.4rem; color:#006064;"></p>
   <div id="flightCountdown" style="font-size:2rem; margin-top:8px;"></div>
   <div style="margin-top:10px;">
@@ -284,6 +285,14 @@ const startDate = new Date(2025, 5, 2, 13, 57); // YYYY, MM(0-based), DD, HH, MM
 const lastEventDate = new Date(2025, 10, 29, 07, 45);
 let flightInterval;
 const FLIGHTS_JSON_PATH = 'flights.json'; 
+
+fetch('flights.json')
+  .then(response => response.json())
+  .then(data => {
+    const count = data.length;
+    document.getElementById('flightCount').textContent = count;
+  })
+  .catch(error => console.error('Error loading flights:', error));
 
 function normalizeFlights(raw) {
   let arr = [];
@@ -604,6 +613,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
