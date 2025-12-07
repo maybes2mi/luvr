@@ -289,10 +289,10 @@ const FLIGHTS_JSON_PATH = 'flights.json';
 fetch('flights.json')
   .then(response => response.json())
   .then(data => {
-    const count = data.length;
-    document.getElementById('flightCount').textContent = count;
+    const toITO = data.filter(flight => flight.note.startsWith("HNL → ITO"));
+    document.getElementById('tripCount').textContent = toITO.length;
   })
-  .catch(error => console.error('Error loading flights:', error));
+  .catch(error => console.error("Error:", error));
 
 function normalizeFlights(raw) {
   let arr = [];
@@ -613,6 +613,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
