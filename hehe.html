@@ -290,7 +290,7 @@ fetch('flights.json')
   .then(response => response.json())
   .then(data => {
     const toITO = data.filter(flight => flight.note.startsWith("HNL → ITO"));
-    document.getElementById('tripCount').textContent = toITO.length;
+    document.getElementById('flightCount').textContent = toITO.length;
   })
   .catch(error => console.error("Error:", error));
 
@@ -613,6 +613,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
